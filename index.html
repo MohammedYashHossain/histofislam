@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flashcard Study App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f5f5f5;
+      margin: 0;
+    }
+    .flashcard-container {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      width: 400px;
+      max-width: 90%;
+      padding: 20px;
+      text-align: center;
+    }
+    .term {
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .definition {
+      margin-top: 15px;
+      font-size: 18px;
+      color: #333;
+      display: none;
+    }
+    .buttons {
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .show-btn {
+      background-color: #007bff;
+      color: white;
+    }
+    .next-btn {
+      background-color: #28a745;
+      color: white;
+    }
+    .prev-btn {
+      background-color: #ffc107;
+      color: white;
+    }
+    .shuffle-btn {
+      background-color: #6f42c1;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="flashcard-container">
+    <div class="term" id="term"></div>
+    <div class="definition" id="definition"></div>
+    <div class="buttons">
+      <button class="show-btn" onclick="toggleDefinition()">Show Definition</button>
+      <button class="prev-btn" onclick="prevCard()">Previous</button>
+      <button class="next-btn" onclick="nextCard()">Next</button>
+      <button class="shuffle-btn" onclick="shuffleCards()">Randomize</button>
+    </div>
+  </div>
+
+  <script>
+    let flashcards = [
+      { term: "Oghuz / Ghuzz", definition: "Turkish tribes" },
+      { term: "‘Ashura’ & Ghadir al-Khumm", definition: "Shi‘ite holidays" },
+      { term: "Sabb", definition: "Public cursing of first 3 caliphs (Buyids)" },
+      { term: "Muwahhidun (Druzes)", definition: "Followers of Hamza b. ‘Ali" },
+      { term: "Iqta‘", definition: "Land grant" },
+      { term: "Shahinshah", definition: "‘King of Kings’ (Buyid rulers)" },
+      { term: "Ghazā / Ghāzī", definition: "Holy war / warrior" },
+      { term: "Rum", definition: "Land of Byzantines (Anatolia)" },
+      { term: "Maghrib", definition: "Islamic West" },
+      { term: "Mashriq", definition: "Islamic East" },
+      { term: "Al-Qahira (Cairo)", definition: "Fatimid capital (founded 970)" },
+      { term: "Al-Azhar", definition: "Mosque/university in Cairo" }
+    ];
+
+    let currentIndex = 0;
+
+    function showCard(index) {
+      document.getElementById('term').textContent = flashcards[index].term;
+      document.getElementById('definition').textContent = flashcards[index].definition;
+      document.getElementById('definition').style.display = 'none';
+    }
+
+    function toggleDefinition() {
+      const def = document.getElementById('definition');
+      def.style.display = def.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function nextCard() {
+      currentIndex = (currentIndex + 1) % flashcards.length;
+      showCard(currentIndex);
+    }
+
+    function prevCard() {
+      currentIndex = (currentIndex - 1 + flashcards.length) % flashcards.length;
+      showCard(currentIndex);
+    }
+
+    function shuffleCards() {
+      for (let i = flashcards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [flashcards[i], flashcards[j]] = [flashcards[j], flashcards[i]];
+      }
+      currentIndex = 0;
+      showCard(currentIndex);
+    }
+
+    // Initialize first card
+    showCard(currentIndex);
+  </script>
+</body>
+</html>
